@@ -24,16 +24,15 @@ document.getElementById("nextBtn").addEventListener("click", () => tour.changeTo
 
 setupClickHandler(renderer, camera, scene);
 
-function animate() {
-  requestAnimationFrame(animate);
+const gameLoop = () => {
+    const elapsedTime = clock.getElapsedTime();
+    updateStationAnimation(station, elapsedTime);
+    tour.updateCameraAnimation();
+    updateSpaceshipAnimation(spaceship);
 
-  const elapsedTime = clock.getElapsedTime();
-  updateStationAnimation(station, elapsedTime);
-  tour.updateCameraAnimation();
-  updateSpaceshipAnimation(spaceship);
+    controls.update();
+    composer.render();
+    window.requestAnimationFrame(gameLoop);
+};
 
-  controls.update();
-  composer.render();
-}
-
-animate();
+gameLoop();

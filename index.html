@@ -2,12 +2,16 @@
 <html lang="sr">
 <head>
   <meta charset="UTF-8" />
+  <link rel="stylesheet" href="/src/style.css">
   <title>Virtuelna tura - Istrazivacka svemirska stanica</title>
 </head>
 <body>
-<button id="prevBtn">Prethodna tacka</button>
-<button id="nextBtn">Sledeca tacka</button>
-<div id="infoPanel"></div>
+<canvas class="threejs"></canvas>
+<div id="ui">
+  <button id="prevBtn">Prethodna tacka</button>
+  <button id="nextBtn">Sledeca tacka</button>
+  <div id="infoPanel"></div>
+</div>
   <script type="module" src="/src/main.js"></script>
 </body>
 </html>

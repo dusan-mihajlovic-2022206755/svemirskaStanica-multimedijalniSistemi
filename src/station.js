@@ -10,140 +10,140 @@ const ROBOT_ARM_SPEED = 0.8;
 let orbitAngle = 0;
 
 export function buildStation(scene, materials) {
-  const { metalMaterial, solarPanelMaterial, windowMaterial } = materials;
+    const { metalMaterial, solarPanelMaterial, windowMaterial } = materials;
 
-  const stationGroup = new THREE.Group();
-  scene.add(stationGroup);
+    const stationGroup = new THREE.Group();
+    scene.add(stationGroup);
 
-  const stationCore = new THREE.Group();
-  stationGroup.add(stationCore);
+    const stationCore = new THREE.Group();
+    stationGroup.add(stationCore);
 
-  const hubGeometry = new THREE.CylinderGeometry(3, 3, 8, 24);
-  const hub = new THREE.Mesh(hubGeometry, metalMaterial);
-  hub.rotation.z = Math.PI / 2;
-  hub.userData.info = "Centralni modul";
-  stationCore.add(hub);
+    const hubGeometry = new THREE.CylinderGeometry(3, 3, 8, 24);
+    const hub = new THREE.Mesh(hubGeometry, metalMaterial);
+    hub.rotation.z = Math.PI / 2;
+    hub.userData.info = "Centralni modul";
+    stationCore.add(hub);
 
-  const labGeometry = new THREE.CylinderGeometry(2, 2, 6, 20);
-  const labModule = new THREE.Mesh(labGeometry, metalMaterial);
-  labModule.rotation.z = Math.PI / 2;
-  labModule.position.set(10, 0, 0);
-  labModule.userData.info = "Laboratorijski modul";
-  stationCore.add(labModule);
+    const labGeometry = new THREE.CylinderGeometry(2, 2, 6, 20);
+    const labModule = new THREE.Mesh(labGeometry, metalMaterial);
+    labModule.rotation.z = Math.PI / 2;
+    labModule.position.set(10, 0, 0);
+    labModule.userData.info = "Laboratorijski modul";
+    stationCore.add(labModule);
 
-  const habGeometry = new THREE.CylinderGeometry(2, 2, 6, 20);
-  const habModule = new THREE.Mesh(habGeometry, metalMaterial);
-  habModule.rotation.z = Math.PI / 2;
-  habModule.position.set(-10, 0, 0);
-  habModule.userData.info = "Stambeni modul";
-  stationCore.add(habModule);
+    const habGeometry = new THREE.CylinderGeometry(2, 2, 6, 20);
+    const habModule = new THREE.Mesh(habGeometry, metalMaterial);
+    habModule.rotation.z = Math.PI / 2;
+    habModule.position.set(-10, 0, 0);
+    habModule.userData.info = "Stambeni modul";
+    stationCore.add(habModule);
 
-  const panelGeometry = new THREE.BoxGeometry(10, 0.1, 5);
+    const panelGeometry = new THREE.BoxGeometry(10, 0.1, 5);
 
-  const panelRight = new THREE.Mesh(panelGeometry, solarPanelMaterial);
-  panelRight.position.set(17, 0, 0);
-  panelRight.userData.info = "Desni solarni panel";
-  stationCore.add(panelRight);
+    const panelRight = new THREE.Mesh(panelGeometry, solarPanelMaterial);
+    panelRight.position.set(17, 0, 0);
+    panelRight.userData.info = "Desni solarni panel";
+    stationCore.add(panelRight);
 
-  const panelLeft = new THREE.Mesh(panelGeometry, solarPanelMaterial);
-  panelLeft.position.set(-17, 0, 0);
-  panelLeft.userData.info = "Levi solarni panel";
-  stationCore.add(panelLeft);
+    const panelLeft = new THREE.Mesh(panelGeometry, solarPanelMaterial);
+    panelLeft.position.set(-17, 0, 0);
+    panelLeft.userData.info = "Levi solarni panel";
+    stationCore.add(panelLeft);
 
-  stationCore.add(createTruss(new THREE.Vector3(3, 0, 0), new THREE.Vector3(8, 0, 0), metalMaterial));
-  stationCore.add(createTruss(new THREE.Vector3(-3, 0, 0), new THREE.Vector3(-8, 0, 0), metalMaterial));
+    stationCore.add(createTruss(new THREE.Vector3(3, 0, 0), new THREE.Vector3(8, 0, 0), metalMaterial));
+    stationCore.add(createTruss(new THREE.Vector3(-3, 0, 0), new THREE.Vector3(-8, 0, 0), metalMaterial));
 
-  const windowGeometry = new THREE.BoxGeometry(0.6, 0.6, 0.05);
-  for (let i = -1; i <= 1; i++) {
-    const win = new THREE.Mesh(windowGeometry, windowMaterial);
-    win.position.set(10 + i * 1.5, 2, 0);
-    stationCore.add(win);
-  }
+    const windowGeometry = new THREE.BoxGeometry(0.6, 0.6, 0.05);
+    for (let i = -1; i <= 1; i++) {
+        const win = new THREE.Mesh(windowGeometry, windowMaterial);
+        win.position.set(10 + i * 1.5, 2, 0);
+        stationCore.add(win);
+    }
 
-  const antennaPivot = createAntenna(metalMaterial);
-  antennaPivot.position.set(10, 3.2, 0); // na vrhu lab modula (radius 2 + malo)
-  stationCore.add(antennaPivot);
+    const antennaPivot = createAntenna(metalMaterial);
+    antennaPivot.position.set(10, 3.2, 0); // na vrhu lab modula (radius 2 + malo)
+    stationCore.add(antennaPivot);
 
-  const armData = createRobotArm(metalMaterial);
-  armData.base.position.set(-10, 3, 0);
-  stationCore.add(armData.base);
-  const robotArmShoulder = armData.shoulder;
-  const robotArmElbow = armData.elbow;
+    const armData = createRobotArm(metalMaterial);
+    armData.base.position.set(-10, 3, 0);
+    stationCore.add(armData.base);
+    const robotArmShoulder = armData.shoulder;
+    const robotArmElbow = armData.elbow;
 
-  return { stationGroup, stationCore, antennaPivot, robotArmShoulder, robotArmElbow };
+    return { stationGroup, stationCore, antennaPivot, robotArmShoulder, robotArmElbow };
 }
 
 function createTruss(from, to, metalMaterial) {
-  const direction = new THREE.Vector3().subVectors(to, from);
-  const length = direction.length();
+    const direction = new THREE.Vector3().subVectors(to, from);
+    const length = direction.length();
 
-  const trussGeometry = new THREE.CylinderGeometry(0.3, 0.3, length, 8);
-  const truss = new THREE.Mesh(trussGeometry, metalMaterial);
+    const trussGeometry = new THREE.CylinderGeometry(0.3, 0.3, length, 8);
+    const truss = new THREE.Mesh(trussGeometry, metalMaterial);
 
-  truss.position.copy(from).add(direction.multiplyScalar(0.5));
-  truss.rotation.z = Math.PI / 2;
-  return truss;
+    truss.position.copy(from).add(direction.multiplyScalar(0.5));
+    truss.rotation.z = Math.PI / 2;
+    return truss;
 }
 
 function createRobotArm(metalMaterial) {
-  const base = new THREE.Group();       // pričvršćen na modul, ne pomera se
+    const base = new THREE.Group();       // pričvršćen na modul, ne pomera se
 
-  const shoulder = new THREE.Group();   // zglob "ramena" - ovde se ruka lomi/okreće
-  base.add(shoulder);
+    const shoulder = new THREE.Group();   // zglob "ramena" - ovde se ruka lomi/okreće
+    base.add(shoulder);
 
-  const upperArmGeometry = new THREE.BoxGeometry(3, 1, 1);
-  const upperArm = new THREE.Mesh(upperArmGeometry, metalMaterial);
-  upperArm.position.x = -1.5;
-  upperArm.userData.info = "Robotska ruka";
-  shoulder.add(upperArm);
+    const upperArmGeometry = new THREE.BoxGeometry(3, 1, 1);
+    const upperArm = new THREE.Mesh(upperArmGeometry, metalMaterial);
+    upperArm.position.x = -1.5;
+    upperArm.userData.info = "Robotska ruka";
+    shoulder.add(upperArm);
 
-  const elbow = new THREE.Group();
-  elbow.position.set(-3, 0, 0);
-  shoulder.add(elbow);
+    const elbow = new THREE.Group();
+    elbow.position.set(-3, 0, 0);
+    shoulder.add(elbow);
 
-  const forearmGeometry = new THREE.BoxGeometry(3, 1, 1);
-  const forearm = new THREE.Mesh(forearmGeometry, metalMaterial);
-  forearm.position.x = -1.5;
-  forearm.userData.info = "Robotska ruka";
-  elbow.add(forearm);
+    const forearmGeometry = new THREE.BoxGeometry(3, 1, 1);
+    const forearm = new THREE.Mesh(forearmGeometry, metalMaterial);
+    forearm.position.x = -1.5;
+    forearm.userData.info = "Robotska ruka";
+    elbow.add(forearm);
 
-  return { base, shoulder, elbow };
+    return { base, shoulder, elbow };
 }
 
 function createAntenna(metalMaterial) {
-  const pivot = new THREE.Group(); // dete stationCore, roditelj štapa i tanjira
+    const pivot = new THREE.Group(); // dete stationCore, roditelj štapa i tanjira
 
-  const poleGeometry = new THREE.CylinderGeometry(0.05, 0.05, 1.5, 8);
-  const pole = new THREE.Mesh(poleGeometry, metalMaterial);
-  pole.position.y = 0.75; // baza štapa na y=0 (na pivotu), vrh na y=1.5
-  pole.userData.info = "Antena";
-  pivot.add(pole);
+    const poleGeometry = new THREE.CylinderGeometry(0.05, 0.05, 1.5, 8);
+    const pole = new THREE.Mesh(poleGeometry, metalMaterial);
+    pole.position.y = 0.75; // baza štapa na y=0 (na pivotu), vrh na y=1.5
+    pole.userData.info = "Antena";
+    pivot.add(pole);
 
-  const dishGeometry = new THREE.ConeGeometry(0.5, 0.4, 16);
-  const dish = new THREE.Mesh(dishGeometry, metalMaterial);
-  dish.position.y = 1.6;
-  dish.rotation.x = Math.PI; // konus okrenut "otvorom" nagore
-  dish.userData.info = "Antena";
-  pivot.add(dish);
+    const dishGeometry = new THREE.ConeGeometry(0.5, 0.4, 16);
+    const dish = new THREE.Mesh(dishGeometry, metalMaterial);
+    dish.position.y = 1.6;
+    dish.rotation.x = Math.PI; // konus okrenut "otvorom" nagore
+    dish.userData.info = "Antena";
+    pivot.add(dish);
 
-  return pivot;
+    return pivot;
 }
 
 export function updateStationAnimation(station, elapsedTime) {
-  const { stationGroup, stationCore, antennaPivot, robotArmShoulder, robotArmElbow } = station;
+    const { stationGroup, stationCore, antennaPivot, robotArmShoulder, robotArmElbow } = station;
 
-  // rotacija cele stanice oko sopstvene ose (zahtev 4/6)
-  stationCore.rotation.y += STATION_SELF_ROTATION_SPEED;
+    // rotacija cele stanice oko sopstvene ose (zahtev 4/6)
+    stationCore.rotation.y += STATION_SELF_ROTATION_SPEED;
 
-  // orbita stanice oko nevidljive centralne tačke (0,0,0) (zahtev 4/6)
-  orbitAngle += STATION_ORBIT_SPEED;
-  stationGroup.position.x = Math.cos(orbitAngle) * STATION_ORBIT_RADIUS;
-  stationGroup.position.z = Math.sin(orbitAngle) * STATION_ORBIT_RADIUS;
+    // orbita stanice oko nevidljive centralne tačke (0,0,0) (zahtev 4/6)
+    orbitAngle += STATION_ORBIT_SPEED;
+    stationGroup.position.x = Math.cos(orbitAngle) * STATION_ORBIT_RADIUS;
+    stationGroup.position.z = Math.sin(orbitAngle) * STATION_ORBIT_RADIUS;
 
-  // antena - sopstvena rotacija (zahtev 5/6)
-  antennaPivot.rotation.y += ANTENNA_ROTATION_SPEED;
+    // antena - sopstvena rotacija (zahtev 5/6)
+    antennaPivot.rotation.y += ANTENNA_ROTATION_SPEED;
 
-  // robotska ruka - njihanje ramena i lakta (zahtev 5/6)
-  robotArmShoulder.rotation.z = Math.sin(elapsedTime * ROBOT_ARM_SPEED) * 0.3;
-  robotArmElbow.rotation.z = Math.sin(elapsedTime * ROBOT_ARM_SPEED * 1.5) * 0.5;
+    // robotska ruka - njihanje ramena i lakta (zahtev 5/6)
+    robotArmShoulder.rotation.z = Math.sin(elapsedTime * ROBOT_ARM_SPEED) * 0.3;
+    robotArmElbow.rotation.z = Math.sin(elapsedTime * ROBOT_ARM_SPEED * 1.5) * 0.5;
 }
