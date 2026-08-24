@@ -1,6 +1,6 @@
 import * as THREE from "three";
 
-const ANIM_DURATION = 1500; // ms, koliko traje prelaz između tačaka
+const ANIM_DURATION = 1500;
 
 export const tourPoints = [
     { name: "Spoljni pregled",          pos: new THREE.Vector3(0, 15, 45), look: new THREE.Vector3(0, 0, 0) },

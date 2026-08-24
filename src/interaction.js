@@ -7,24 +7,23 @@ export function setupClickHandler(renderer, camera, scene) {
     function onCanvasClick(event) {
 
         mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1; // y je obrnut (ekran ide odozgo, 3D svet odozdo)
+        mouse.y = -(event.clientY / window.innerHeight) * 2 + 1; // y obrnut!!
 
         raycaster.setFromCamera(mouse, camera);
 
-        // true = proveri i "unuke" (decu unutar grupa), ne samo direktnu decu scene
         const intersects = raycaster.intersectObjects(scene.children, true);
 
         const infoPanel = document.getElementById("infoPanel");
 
         if (intersects.length > 0) {
-            const hit = intersects[0].object; // najbliži pogođeni objekat kameri
+            const hit = intersects[0].object; // najbliži kameri
             if (hit.userData.info) {
                 infoPanel.textContent = hit.userData.info;
                 return;
             }
         }
 
-        infoPanel.textContent = ""; // klik u prazno - očisti panel
+        infoPanel.textContent = "";
     }
 
     renderer.domElement.addEventListener("click", onCanvasClick);

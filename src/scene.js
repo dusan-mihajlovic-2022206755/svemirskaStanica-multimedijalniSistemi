@@ -25,7 +25,6 @@ export function initScene() {
 
     const clock = new THREE.Clock();
 
-    // orbit kontrole - https://threejs.org/docs/?q=orbit#examples/en/controls/OrbitControls
     const controls = new OrbitControls(camera, canvas);
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
@@ -34,16 +33,16 @@ export function initScene() {
 
     const composer = new EffectComposer(renderer);
 
-    // prvi pass - obican render scene, kao osnova
+    // prvi pass - obican render
     const renderPass = new RenderPass(scene, camera);
     composer.addPass(renderPass);
 
-    // drugi pass - pronalazi svetle delove i dodaje im sjaj
+    //drugi pass - bloom
     const bloomPass = new UnrealBloomPass(
         new THREE.Vector2(window.innerWidth, window.innerHeight),
-        1.2,   // strength - koliko jako sjaji
-        0.4,   // radius - koliko se sjaj širi oko izvora
-        0.3    // threshold - koliko svetao pixel mora biti da bi sijao (0-1)
+        1.2,
+        0.4,
+        0.3
     );
     composer.addPass(bloomPass);
 
