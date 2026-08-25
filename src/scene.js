@@ -53,5 +53,18 @@ export function initScene() {
         composer.setSize(window.innerWidth, window.innerHeight);
     });
 
+    //debug
+    // const axesHelper = new THREE.AxesHelper(50);
+    // scene.add(axesHelper);
+    //
+    // scene.add(createDebugMarker(40, 20, 30));// crvena tacka na (10, 2, 0)
     return { scene, camera, renderer, controls, composer, bloomPass, clock };
+}
+
+function createDebugMarker(x, y, z, color = 0xff0000) {
+    const markerGeometry = new THREE.SphereGeometry(0.5, 8, 8);
+    const markerMaterial = new THREE.MeshBasicMaterial({ color }); // Basic - ignoriše svetlo, uvek se vidi jasno
+    const marker = new THREE.Mesh(markerGeometry, markerMaterial);
+    marker.position.set(x, y, z);
+    return marker;
 }

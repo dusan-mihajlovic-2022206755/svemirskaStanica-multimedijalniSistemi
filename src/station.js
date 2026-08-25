@@ -59,8 +59,8 @@ export function buildStation(scene, materials) {
     panelLeft.userData.info = "Levi solarni panel";
     stationCore.add(panelLeft);
 
-    stationCore.add(createAxis(3, 8, metalMaterial));
-    stationCore.add(createAxis(-3, -8, metalMaterial));
+
+    stationCore.add(createAxis(-8, 8, metalMaterial));
 
     const windowGeometry = new THREE.BoxGeometry(1, 1, 0.05);
     for (let i = -1; i <= 1; i++) {

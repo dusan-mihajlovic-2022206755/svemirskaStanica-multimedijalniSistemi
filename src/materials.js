@@ -45,26 +45,3 @@ export function createMaterials() {
     return { metalMaterial, solarPanelMaterial, windowMaterial, shipWindowMaterial };
 }
 
-
-function createBumpTexture() {
-    const size = 256;
-    const canvas = document.createElement("canvas");
-    canvas.width = canvas.height = size;
-    const ctx = canvas.getContext("2d");
-    const imageData = ctx.createImageData(size, size);
-
-    for (let i = 0; i < imageData.data.length; i += 4) {
-        const value = Math.floor(Math.random() * 60) + 90;
-        imageData.data[i] = value;
-        imageData.data[i + 1] = value;
-        imageData.data[i + 2] = value;
-        imageData.data[i + 3] = 255;
-    }
-    ctx.putImageData(imageData, 0, 0);
-
-    const texture = new THREE.CanvasTexture(canvas);
-    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-    texture.repeat.set(2, 2);
-    return texture;
-}
-
