@@ -1,7 +1,7 @@
 # Virtuelna tura – Istraživačka svemirska stanica
 
 **Predmet:** Multimedijalni sistemi – Kolokvijum 2
-**Autor:** Dušan Mihajlović, 2022/206755
+**Autor:** Dušan Mihajlović, 2022206755
 
 ---
 
@@ -13,8 +13,8 @@ Osnovni koncept 3D grafike korišćen u projektu je **scene graph** (hijerarhija
 
 Za realističniji prikaz scena, primenjuju se sledeći koncepti računarske grafike:
 - **Rasterizacija** trouglova geometrije preko GPU-a (WebGL).
-- **Osvetljenje** po Phong/PBR modelu (`MeshStandardMaterial`), sa ambijentalnim i direkcionim (sunčevim) svetlom.
-- **Teksturisanje** (difuzne mape, normal mape, bump mape) radi dobijanja detalja površine bez dodatne geometrije.
+- **Osvetljenje** Ambijentalnio i direkciono (sunčevo) svetlo.
+- **Teksturisanje** (difuzne mape, normal mape) radi dobijanja detalja površine bez dodatne geometrije.
 - **Post-processing** – dodatna obrada renderovane slike (bloom efekat za simulaciju sijanja sunčeve svetlosti/prozora).
 - **Raycasting** – bacanje zraka iz kamere kroz poziciju kursora radi detekcije klika na 3D objekte (selekcija objekata mišem).
 
@@ -29,7 +29,7 @@ Za realističniji prikaz scena, primenjuju se sledeći koncepti računarske graf
 | **EffectComposer + RenderPass + UnrealBloomPass** | Post-processing pipeline za bloom (efekat sijanja) |
 | **Vite** (v8) | Build alat i dev server (ES moduli, hot-reload, produkcioni build) |
 | **HTML5 Canvas 2D API** | Proceduralno generisanje tekstura (zvezdano nebo, Zemlja) koje se potom koriste kao Three.js teksture |
-| **Vanilla JavaScript (ES moduli)** | Cela aplikacija je pisana u čistom JS-u, bez frontend frameworka |
+| **Vanilla JavaScript** | Cela aplikacija je pisana u čistom JS-u, bez frontend frameworka |
 | **CSS** | Minimalno stilizovanje UI overlay-a (dugmad, info panel) |
 
 Projekat je organizovan modularno (`src/`):
@@ -37,9 +37,9 @@ Projekat je organizovan modularno (`src/`):
 - `scene.js` – kreiranje scene, kamere, renderera, kontrola i post-processing pipeline-a
 - `lights.js` – definisanje izvora svetla
 - `materials.js` – učitavanje tekstura i definisanje materijala
-- `skybox.js` – proceduralno generisanje neba sa zvezdama i Zemlje
+- `skybox.js` – proceduralno generisanje neba sa zvezdama i planete
 - `station.js` – geometrija i animacija svemirske stanice (moduli, paneli, antena, robotska ruka)
-- `spaceship.js` – geometrija i animacija svemirskog broda koji kruži oko stanice
+- `spaceship.js` – geometrija i animacija svemirskog broda koji kruži oko stanice (dodatni objekat)
 - `tour.js` – kontroler virtuelne ture (unapred definisane tačke kamere + animacija prelaza)
 - `interaction.js` – detekcija klika na objekte (raycasting) i prikaz informacija
 
@@ -174,4 +174,3 @@ const windowMaterial = new THREE.MeshStandardMaterial({
 - **Bloom post-processing efekat** koji naglašava osvetljene delove scene (sunce, prozori).
 - **Responzivnost** – scena i kamera se automatski prilagođavaju promeni veličine prozora.
 
-*(Printskrinovi gotovog rešenja se dodaju ovde – prikaz spoljnog izgleda stanice, pojedinačnih modula, robotske ruke tokom rada, virtuelne ture i info panela nakon klika.)*

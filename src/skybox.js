@@ -8,6 +8,7 @@ export function createSkybox(scene) {
     starCtx.fillStyle = "#000005";
     starCtx.fillRect(0, 0, 1024, 1024);
 
+    //preuzeto, ispostavilo se da preko slika ne izgleda kako treba
     for (let i = 0; i < 1500; i++) {
         const x = Math.random() * 1024;
         const y = Math.random() * 1024;
@@ -31,13 +32,12 @@ export function createSkybox(scene) {
     scene.add(skydome);
 
     const earthCanvas = document.createElement("canvas");
-    earthCanvas.width = 512;
-    earthCanvas.height = 256;
+    earthCanvas.width = 1000;
+    earthCanvas.height = 500;
     const earthCtx = earthCanvas.getContext("2d");
 
-    earthCtx.fillStyle = "#1c4f8c";
-    earthCtx.fillRect(0, 0, 512, 256);
-    earthCtx.fillStyle = "#2f8f4e";
+    earthCtx.fillStyle = "#1c8c5f";
+    earthCtx.fillRect(0, 0, 1000, 500);
 
     const earthTexture = new THREE.CanvasTexture(earthCanvas);
     earthTexture.colorSpace = THREE.SRGBColorSpace;

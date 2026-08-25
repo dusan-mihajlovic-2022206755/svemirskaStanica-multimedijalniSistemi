@@ -6,7 +6,7 @@ export function createLights(scene) {
     scene.add(ambientLight);
 
     // direkciono svetlo
-    const sunLight = new THREE.DirectionalLight(0xffffff, 6);
+    const sunLight = new THREE.DirectionalLight(0xffffff, 4);
     sunLight.position.set(40, 20, 30);
     sunLight.target.position.set(0, 0, 0);
     scene.add(sunLight);
