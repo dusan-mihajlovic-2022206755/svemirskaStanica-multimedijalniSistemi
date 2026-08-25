@@ -168,9 +168,12 @@ const windowMaterial = new THREE.MeshStandardMaterial({
 - **Svemirski brod** koji kontinuirano kruži oko stanice.
 - **Automatske animacije**: rotacija stanice oko sopstvene ose, orbitalno kretanje stanice, rotiranje antene, pokreti robotske ruke i otvaranje/zatvaranje kleštiju, rotacija laboratorijskog modula.
 - **Slobodna kontrola kamere** mišem (rotacija, zum, pomeranje) preko `OrbitControls`.
-- **Virtuelna tura** – dugmad "Prethodna tačka" / "Sledeća tačka" vode kroz unapred definisane tačke posmatranja (spoljni pregled, solarni paneli, laboratorijski modul, stambeni modul i ruka, pogled odozgo), uz glatku animiranu tranziciju kamere.
+- **Virtuelna tura** – dugmad "Prethodna tačka" / "Sledeća tačka" vode kroz unapred definisane tačke posmatranja (spoljni pregled, solarni paneli, laboratorijski modul, stambeni modul i ruka, pogled odozgo), uz animiranu tranziciju kamere.
 - **Interakcija klikom (raycasting)** – klik na bilo koji deo modela ispisuje naziv tog dela u info panelu na vrhu ekrana.
 - **Skybox** sa proceduralno generisanim zvezdanim nebom i modelom Zemlje u pozadini.
 - **Bloom post-processing efekat** koji naglašava osvetljene delove scene (sunce, prozori).
-- **Responzivnost** – scena i kamera se automatski prilagođavaju promeni veličine prozora.
+- **Responzivnost** – scena i kamera se automatski prilagođavaju promeni veličini prozora.
+
+
+
 
