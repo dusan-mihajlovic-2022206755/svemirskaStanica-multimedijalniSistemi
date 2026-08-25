@@ -10,7 +10,7 @@ export function createMaterials() {
     bumpTexture.colorSpace = THREE.SRGBColorSpace;
     const solarTexture = textureLoader.load("textures/Solar.jpg");
     solarTexture.colorSpace = THREE.SRGBColorSpace;
-    const windowTexture = textureLoader.load("frost.jpeg");
+    const windowTexture = textureLoader.load("textures/frost.jpeg");
     windowTexture.colorSpace = THREE.SRGBColorSpace;
 
     const metalMaterial = new THREE.MeshStandardMaterial({
