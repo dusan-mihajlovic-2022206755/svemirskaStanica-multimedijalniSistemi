@@ -3,10 +3,11 @@ import * as THREE from "three";
 const STATION_SELF_ROTATION_SPEED = 0.0015;
 const STATION_ORBIT_SPEED = 0.0006;
 const STATION_ORBIT_RADIUS = 6;
-const ANTENNA_ROTATION_SPEED = 0.01;
+const ANTENNA_ROTATION_SPEED = 0.1;
 const ROBOT_ARM_SPEED = 0.8;
 const LAB_SPIN_SPEED = 0.008;
-
+const PINCER_SPEED = 2;
+const PINCER_MAX_ANGLE = 0.9;
 let orbitAngle = 0;
 
 export function buildStation(scene, materials) {
@@ -47,6 +48,7 @@ export function buildStation(scene, materials) {
 
     const panelGeometry = new THREE.BoxGeometry(10, 0.1, 5);
 
+    //solarni paneli
     const panelRight = new THREE.Mesh(panelGeometry, solarPanelMaterial);
     panelRight.position.set(7, 0, 0);
     panelRight.userData.info = "Desni solarni panel";
@@ -57,8 +59,8 @@ export function buildStation(scene, materials) {
     panelLeft.userData.info = "Levi solarni panel";
     stationCore.add(panelLeft);
 
-    stationCore.add(createTruss(new THREE.Vector3(3, 0, 0), new THREE.Vector3(8, 0, 0), metalMaterial));
-    stationCore.add(createTruss(new THREE.Vector3(-3, 0, 0), new THREE.Vector3(-8, 0, 0), metalMaterial));
+    stationCore.add(createAxis(3, 8, metalMaterial));
+    stationCore.add(createAxis(-3, -8, metalMaterial));
 
     const windowGeometry = new THREE.BoxGeometry(1, 1, 0.05);
     for (let i = -1; i <= 1; i++) {
@@ -70,7 +72,7 @@ export function buildStation(scene, materials) {
         stationCore.add(winBack);
     }
 
-
+    //prozori sa strane, prednji i zadnji
     const labWinFront = new THREE.Mesh(windowGeometry, windowMaterial);
     labWinFront.position.set(0, 0, 2);
     labAssembly.add(labWinFront);
@@ -83,24 +85,25 @@ export function buildStation(scene, materials) {
     antennaPivot.position.set(0, 2, 0);
     labAssembly.add(antennaPivot);
 
+    //ruka, sa laktom i zglobom
     const armData = createRobotArm(metalMaterial);
     armData.base.position.set(-10, 0, 2);
     armData.base.rotation.y = Math.PI / 2;
     stationCore.add(armData.base);
     const robotArmShoulder = armData.shoulder;
     const robotArmElbow = armData.elbow;
+    const pincerTopPivot = armData.pincerTopPivot;
+    const pincerBottomPivot = armData.pincerBottomPivot;
 
-    return { stationGroup, stationCore, antennaPivot, robotArmShoulder, robotArmElbow, labAssembly };
+    return { stationGroup, stationCore, antennaPivot, robotArmShoulder, robotArmElbow, labAssembly, pincerTopPivot, pincerBottomPivot };
 }
 
-function createTruss(from, to, metalMaterial) {
-    const direction = new THREE.Vector3().subVectors(to, from);
-    const length = direction.length();
-
+function createAxis(startX, endX, metalMaterial) {
+    const length = Math.abs(endX - startX);
     const trussGeometry = new THREE.CylinderGeometry(0.3, 0.3, length, 8);
     const truss = new THREE.Mesh(trussGeometry, metalMaterial);
 
-    truss.position.copy(from).add(direction.multiplyScalar(0.5));
+    truss.position.x = (startX + endX) / 2; // midpoint between the two
     truss.rotation.z = Math.PI / 2;
     return truss;
 }
@@ -127,7 +130,26 @@ function createRobotArm(metalMaterial) {
     forearm.userData.info = "Robotska ruka";
     elbow.add(forearm);
 
-    return { base, shoulder, elbow };
+    const wrist = new THREE.Group();
+    wrist.position.set(-3, 0, 0);
+    elbow.add(wrist);
+
+    const pincerGeometry = new THREE.BoxGeometry(2.5, 0.5, 1);
+
+    //klješta, donja i gornja
+    const pincerTopPivot = new THREE.Group();
+    wrist.add(pincerTopPivot);
+    const pincerTop = new THREE.Mesh(pincerGeometry, metalMaterial);
+    pincerTop.position.x = -1;
+    pincerTopPivot.add(pincerTop);
+
+    const pincerBottomPivot = new THREE.Group();
+    wrist.add(pincerBottomPivot);
+    const pincerBottom = new THREE.Mesh(pincerGeometry, metalMaterial);
+    pincerBottom.position.x = -1;
+    pincerBottomPivot.add(pincerBottom);
+
+    return { base, shoulder, elbow, pincerTopPivot, pincerBottomPivot };
 }
 
 function createAntenna(metalMaterial) {
@@ -150,7 +172,7 @@ function createAntenna(metalMaterial) {
 }
 
 export function updateStationAnimation(station, elapsedTime) {
-    const { stationGroup, stationCore, antennaPivot, robotArmShoulder, robotArmElbow, labAssembly } = station;
+    const { stationGroup, stationCore, antennaPivot, robotArmShoulder, robotArmElbow, labAssembly, pincerTopPivot, pincerBottomPivot } = station;
 
     stationCore.rotation.y += STATION_SELF_ROTATION_SPEED;
 
@@ -164,4 +186,8 @@ export function updateStationAnimation(station, elapsedTime) {
 
     robotArmShoulder.rotation.z = Math.sin(elapsedTime * ROBOT_ARM_SPEED) * 0.3;
     robotArmElbow.rotation.z = Math.sin(elapsedTime * ROBOT_ARM_SPEED * 1.5) * 0.5;
+
+const openAmount = ((Math.sin(elapsedTime * PINCER_SPEED) + 1) / 2) * PINCER_MAX_ANGLE;
+    pincerTopPivot.rotation.z = openAmount;
+    pincerBottomPivot.rotation.z = -openAmount;
 }
